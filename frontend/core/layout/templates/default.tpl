@@ -1,63 +1,66 @@
 {include:core/layout/templates/head.tpl}
 
 <body class="{$LANGUAGE}" itemscope itemtype="http://schema.org/WebPage">
-	<div id="container">
-		<header id="header">
-			{* Logo *}
-			<h2>
-				<a href="/">{$siteTitle}</a>
-			</h2>
+  <!--[if lt IE 8]>
+  <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+  <![endif]-->
 
-			{* Language *}
-			<div>
-				{include:core/layout/templates/languages.tpl}
-			</div>
-		</header>
+  <header role="banner" class="header">
+    {include:core/layout/templates/header.tpl}
+  </header>
 
-		{* Navigation *}
-		<nav>
-			{$var|getnavigation:'page':0:1}
-		</nav>
+  <main role="main" class="primary">
+    {* Page title *}
+    {option:!hideContentTitle}
+      <h1>{$page.title}</h1>
+    {/option:!hideContentTitle}
 
-		<section>
-			{* Breadcrumb *}
-			{include:core/layout/templates/breadcrumb.tpl}
+    {* Main position *}
+    {iteration:positionMain}
+      {option:positionMain.blockIsHTML}
+      <div class="editor">
+        {$positionMain.blockContent}
+      </div>
+      {/option:positionMain.blockIsHTML}
+      {option:!positionMain.blockIsHTML}
+        {$positionMain.blockContent}
+      {/option:!positionMain.blockIsHTML}
+    {/iteration:positionMain}
+  </main>
 
-			{* Page title *}
-			{option:!hideContentTitle}
-				<header class="mainTitle">
-					<h1>{$page.title}</h1>
-				</header>
-			{/option:!hideContentTitle}
+  <aside role="complementary" class="secondary">
+    {* Aside position *}
+    {iteration:positionAside}
+      {option:positionAside.blockIsHTML}
+      <div class="editor">
+        {$positionAside.blockContent}
+      </div>
+      {/option:positionAside.blockIsHTML}
+      {option:!positionAside.blockIsHTML}
+        {$positionAside.blockContent}
+      {/option:!positionAside.blockIsHTML}
+    {/iteration:positionAside}
+  </aside>
 
-			{* Main position *}
-			{iteration:positionMain}
-				{option:positionMain.blockIsHTML}
-					<section class="mod">
-						<div class="inner">
-							<div class="bd content">
-								{$positionMain.blockContent}
-							</div>
-						</div>
-					</section>
-				{/option:positionMain.blockIsHTML}
-				{option:!positionMain.blockIsHTML}
-					{$positionMain.blockContent}
-				{/option:!positionMain.blockIsHTML}
-			{/iteration:positionMain}
-		</section>
+  <footer role="contentinfo" class="footer">
+    {include:core/layout/templates/footer.tpl}
+  </footer>
 
-		<footer>
-			{include:core/layout/templates/footer.tpl}
-		</footer>
-	</div>
+  <noscript role="alert">
+    <h2>{$lblEnableJavascript|ucfirst}</h2>
+    <p>{$msgEnableJavascript}</p>
+  </noscript>
 
-	{* General Javascript *}
-	{iteration:jsFiles}
-		<script src="{$jsFiles.file}"></script>
-	{/iteration:jsFiles}
+  {* General Javascript *}
+  {iteration:jsFiles}
+    <script src="{$jsFiles.file}"></script>
+  {/iteration:jsFiles}
 
-	{* Site wide HTML *}
-	{$siteHTMLFooter}
+  {* Theme specific Javascript *}
+  <script src="{$THEME_URL}/core/js/theme.js"></script>
+
+  {* Site wide HTML *}
+  {$siteHTMLFooter}
 </body>
 </html>
+
